@@ -74,3 +74,31 @@ Commit changes `git commit -am "Virtuoso v1.4.2"`
 
 Push to master `git push`
 *(There is currently no restriction on pushing to the master on this repository)*
+
+
+# Other repositories
+The same steps can also be used for Maestro and Vitraux. 
+If you are to use the Vitraux files, you will need to remove the <version> before deploying to tomcat
+
+
+## Maestro
+```
+mvn install:install-file -DgroupId=uk.gov.homeoffice -DartifactId=maestro -Dversion=<version>
+-Dfile=target/maestro-<version>.jar -Dpackaging=jar -DpomFile=pom.xml 
+-DlocalRepositoryPath=<path to tdcs_framework/maven.git>repository -DcreateChecksum=true
+
+```
+
+## Vitraux-Virtuoso
+```
+mvn install:install-file -DgroupId=uk.gov.homeoffice.vitraux -DartifactId=virtuoso 
+-Dfile=target/virtuoso.war -Dpackaging=war -DpomFile=pom.xml 
+-DlocalRepositoryPath=<path to tdcs_framework/maven.git>repository -DcreateChecksum=true
+```
+
+## Vitraux-Maestro
+```
+mvn install:install-file -DgroupId=uk.gov.homeoffice.vitraux -DartifactId=maestro 
+-Dfile=target/maestro.war -Dpackaging=war -DpomFile=pom.xml 
+-DlocalRepositoryPath=<path to tdcs_framework/maven.git>repository -DcreateChecksum=true
+```
