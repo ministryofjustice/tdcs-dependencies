@@ -77,28 +77,35 @@ Push to master `git push`
 
 
 # Other repositories
-The same steps can also be used for Maestro and Vitraux. 
-If you are to use the Vitraux files, you will need to remove the <version> before deploying to tomcat
+The same steps can also be used to create builds for  Maestro, Virtuoso-Listener and Vitraux. 
 
+For Virtuoso-Listener and Vitraux, you will need to remove the <version> beore deploying to tomcat.
 
 ## Maestro
 ```
 mvn install:install-file -DgroupId=uk.gov.homeoffice -DartifactId=maestro -Dversion=<version>
 -Dfile=target/maestro-<version>.jar -Dpackaging=jar -DpomFile=pom.xml 
--DlocalRepositoryPath=<path to tdcs_framework/maven.git>repository -DcreateChecksum=true
+-DlocalRepositoryPath=<path to tdcs_framework/maven.git>/repository -DcreateChecksum=true
 
+```
+
+## Virtuoso-Listener
+```
+mvn install:install-file -DgroupId=uk.gov.homeoffice -DartifactId=virtuoso-listener -Dversion=<version>
+-Dfile=target/virtuoso-listener-<version>.war -Dpackaging=war -DpomFile=pom.xml 
+-DlocalRepositoryPath=<path to tdcs_framework/maven.git>/repository -DcreateChecksum=true
 ```
 
 ## Vitraux-Virtuoso
 ```
 mvn install:install-file -DgroupId=uk.gov.homeoffice.vitraux -DartifactId=virtuoso 
 -Dfile=target/virtuoso.war -Dpackaging=war -DpomFile=pom.xml 
--DlocalRepositoryPath=<path to tdcs_framework/maven.git>repository -DcreateChecksum=true
+-DlocalRepositoryPath=<path to tdcs_framework/maven.git>/repository -DcreateChecksum=true
 ```
 
 ## Vitraux-Maestro
 ```
 mvn install:install-file -DgroupId=uk.gov.homeoffice.vitraux -DartifactId=maestro 
 -Dfile=target/maestro.war -Dpackaging=war -DpomFile=pom.xml 
--DlocalRepositoryPath=<path to tdcs_framework/maven.git>repository -DcreateChecksum=true
+-DlocalRepositoryPath=<path to tdcs_framework/maven.git>/repository -DcreateChecksum=true
 ```
