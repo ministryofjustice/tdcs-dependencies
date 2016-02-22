@@ -1,0 +1,173 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <profiles>
+    <profile>
+      <id>maestro</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <finalName>maestro</finalName>
+      </build>
+    </profile>
+    <profile>
+      <id>virtuoso</id>
+      <build>
+        <finalName>virtuoso</finalName>
+      </build>
+    </profile>
+  </profiles>
+
+  <!-- 1. Set the project information. -->
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>uk.gov.homeoffice.vitraux</groupId>
+  <artifactId>${project.build.finalName}</artifactId>
+  <version>1.4.4</version>
+  <packaging>war</packaging>
+  <name>Vitraux ${project.build.finalName} server</name>
+
+  <description>This is the POM file used to build the Vitraux Server.</description>
+  <organization>
+	<name>Homeoffice - TDCS</name>
+	<url>https://www.gov.uk/government/organisations/home-office</url>
+  </organization>
+
+	<!-- 2. Set the version numbers of the dependency libraries. -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java-target.version>1.8</java-target.version>
+		<maven.compiler.version>3.1</maven.compiler.version>
+		<maven.jar.plugin.version>2.3.1</maven.jar.plugin.version>
+		<maven.war.plugin.version>2.6</maven.war.plugin.version>
+		<maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
+		<!-- Dependencies version -->
+		<junit.version>4.11</junit.version>
+		<commons-net.version>3.3</commons-net.version>
+		<commons-io.version>1.3.2</commons-io.version>
+		<javax.json.version>1.0.4</javax.json.version>
+		<javax.json-api.version>1.0</javax.json-api.version>
+		<log4j.version>1.2.13</log4j.version>
+		<commons-fileupload>1.3.1</commons-fileupload>
+		<servlet-api.version>6.0.39</servlet-api.version>
+		<mysql-connector-java.version>5.1.28</mysql-connector-java.version>
+		<maestro.version>1.5.1</maestro.version>
+	</properties>
+
+	<!-- 3. Specify dependencies. -->
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>${javax.json.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.json</groupId>
+			<artifactId>javax.json-api</artifactId>
+			<version>${javax.json-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>${commons-net.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+		    <dependency>
+		      <groupId>commons-fileupload</groupId>
+		      <artifactId>commons-fileupload</artifactId>
+		      <version>${commons-fileupload}</version>
+		    </dependency>
+	    <dependency>
+	      <groupId>org.apache.tomcat</groupId>
+	      <artifactId>servlet-api</artifactId>
+	      <version>${servlet-api.version}</version>
+	    </dependency>
+	    <dependency>
+	      <groupId>mysql</groupId>
+	      <artifactId>mysql-connector-java</artifactId>
+	      <version>${mysql-connector-java.version}</version>
+	    </dependency>
+	    <dependency>
+	      <groupId>uk.gov.homeoffice</groupId>
+	      <artifactId>maestro</artifactId>
+	      <version>${maestro.version}</version>
+	    </dependency>
+	</dependencies>
+
+	<!-- 4. Create the tasks. -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.version}</version>
+        <configuration>
+          <source>${java-target.version}</source>
+          <target>${java-target.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${maven.war.plugin.version}</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <archive>
+            <manifestEntries>
+	      <Server-Type>Vitraux ${project.build.finalName}</Server-Type>
+              <Server-Version>${project.version}</Server-Version>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>${maven-antrun-plugin.version}</version>
+            <executions>
+              <execution>
+                <phase>process-resources</phase>
+                <configuration>
+                  <target>
+                      <copy file="${project.basedir}/conf/config.properties.${project.build.finalName}" tofile="${project.build.outputDirectory}/config.properties"/>
+                      <copy file="${project.basedir}/conf/log4j.properties.${project.build.finalName}" tofile="${project.build.outputDirectory}/log4j.properties"/>
+                      <copy file="${project.basedir}/conf/test.properties.${project.build.finalName}" tofile="${project.build.outputDirectory}/test.properties"/>
+                      <copy file="${project.basedir}/conf/web.xml.${project.build.finalName}" overwrite="true" tofile="${project.basedir}/src/main/webapp/WEB-INF/web.xml"/>
+                      <copy file="${project.basedir}/conf/context.xml" tofile="${project.basedir}/target/${project.build.finalName}/META-INF/context.xml"/>
+                      <copy todir="${project.basedir}/target/${project.build.finalName}/images">
+                        <fileset dir="${project.basedir}/src/main/resources/images" includes="*"/>
+                      </copy>
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+     </plugins>
+     <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/resources/images</directory>
+        <excludes>
+          <exclude>*</exclude>
+        </excludes>
+      </resource>
+    </resources>
+  </build>
+</project>
