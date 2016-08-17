@@ -3,7 +3,7 @@
   <groupId>uk.gov.homeoffice</groupId>
   <artifactId>virtuoso</artifactId>
   <versioning>
-    <release>1.9.1</release>
+    <release>1.10</release>
     <versions>
       <version>1.4.2</version>
       <version>1.4.3.1</version>
@@ -21,7 +21,8 @@
       <version>1.8.1</version>
       <version>1.9</version>
       <version>1.9.1</version>
+      <version>1.10</version>
     </versions>
-    <lastUpdated>20160623095639</lastUpdated>
+    <lastUpdated>20160817081308</lastUpdated>
   </versioning>
 </metadata>
